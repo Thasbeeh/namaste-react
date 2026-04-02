@@ -7,7 +7,15 @@
     "@eslint/js": "^9.0.0",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^10.1.8",
+    "parcel": "^2.16.4",
     "prettier": "^3.0.0",
     "typescript-eslint": "^8.0.0"
-  }
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ]
 }
