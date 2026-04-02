@@ -1,4 +1,4 @@
-# 📦 Episode 2 – Clean Notes
+# 📦 Episode 2 – JavaScript Tooling & Module Basics
 
 ## 🔹 Package Management
 
