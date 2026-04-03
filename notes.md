@@ -90,3 +90,110 @@ Parcel outputs the production build into:
 
 - Use `browserslist` in `package.json`
 - Helps tools optimize code for target browsers
+
+# ⚛️ Episode 3 – JSX, React Elements & Components
+
+## 🔹 Custom Scripts
+
+Define custom server commands in the `scripts` object of `package.json`:
+
+```json
+"scripts": {
+  "start": "parcel index.html",
+  "build": "parcel build index.html"
+}
+```
+
+---
+
+## 🔹 React Element vs JSX
+
+- A **React element** is a JavaScript object
+- **JSX** (JavaScript XML) is not HTML inside JS — it just _looks_ like HTML/XML
+- JSX is a syntax that gets transpiled into a React element
+
+**Flow:**
+
+```
+JSX → React Element → JS Object → HTML Element
+```
+
+**React element (without JSX):**
+
+```js
+const heading = React.createElement('h1', { id: 'heading' }, 'Namaste React');
+```
+
+**JSX equivalent:**
+
+```jsx
+const heading = <h1 id="heading">Namaste React</h1>;
+```
+
+---
+
+## 🔹 JSX Transpilation
+
+- JSX is **transpiled to React elements** before reaching the JS engine
+- This is handled by **Babel**, which is bundled via **Parcel**
+- Multi-line JSX must be wrapped in parentheses `()`
+
+```jsx
+const element = (
+  <div>
+    <h1>Hello</h1>
+    <p>World</p>
+  </div>
+);
+```
+
+---
+
+## 🔹 React Components
+
+| Type                  | Status | Description                    |
+| --------------------- | ------ | ------------------------------ |
+| Class-based component | Old    | Uses ES6 classes               |
+| Functional component  | ✅ New | A JS function that returns JSX |
+
+**Functional component example:**
+
+```jsx
+const Title = () => {
+  return <h1>Namaste React</h1>;
+};
+```
+
+---
+
+## 🔹 Component Composition
+
+Placing a component inside another component:
+
+```jsx
+const App = () => {
+  return (
+    <div>
+      <Title />
+    </div>
+  );
+};
+```
+
+---
+
+## 🔹 Calling a Functional Component
+
+A functional component can be invoked in three ways:
+
+```jsx
+<Title />         // JSX self-closing tag
+<Title></Title>   // JSX open-close tag
+{Title()}         // Direct function call
+```
+
+---
+
+## 🔹 JSX Security
+
+JSX automatically **sanitizes injected content**, protecting against XSS (cross-site scripting) attacks.

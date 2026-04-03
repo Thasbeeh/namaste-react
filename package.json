@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "start": "parcel index.html",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },
