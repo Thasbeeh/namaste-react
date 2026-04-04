@@ -197,3 +197,66 @@ A functional component can be invoked in three ways:
 ## 🔹 JSX Security
 
 JSX automatically **sanitizes injected content**, protecting against XSS (cross-site scripting) attacks.
+
+# 🧩 Episode 4 – Props, Virtual DOM & Reconciliation
+
+## 🔹 Props
+
+- Props are **arguments passed to React functional components**
+- They allow components to be dynamic and reusable
+
+```jsx
+const Card = (props) => {
+  return <h1>{props.title}</h1>;
+};
+
+<Card title="Namaste React" />;
+```
+
+---
+
+## 🔹 Config Driven UI
+
+- UI is built based on **configs / data** received (e.g. from an API)
+- The same website can show a **different UI** in Chennai, Bangalore, Delhi — based on the config
+
+---
+
+## 🔹 Keys in Lists
+
+- When rendering components at the **same level**, React requires a **unique `key`** prop
+- Without a key, React can't identify where a new component should be placed — so it **re-renders all** of them
+- With a key, React **only renders the new/changed one** → performance optimization
+
+```jsx
+items.map((item) => <Card key={item.id} data={item} />);
+```
+
+> ⚠️ **Anti-pattern:** Using array `index` as key is discouraged by React, as it can cause incorrect renders during reordering or deletion.
+
+---
+
+## 🔹 Virtual DOM
+
+React uses a Virtual DOM to efficiently update the UI:
+
+```
+State Change
+    ↓
+New Virtual DOM created (expected result)
+    ↓
+Diffing — compared with previous Virtual DOM
+    ↓
+Only the changed elements updated in the actual DOM
+```
+
+- **Virtual DOM** is a lightweight JS object representation of the actual DOM
+- Only the **diff (changed part)** is applied to the real DOM — not a full re-render
+
+---
+
+## 🔹 React Reconciliation
+
+- The process React uses to update the DOM efficiently
+- Uses a **diffing algorithm** to find exactly which part/component changed
+- Ensures minimal DOM operations for maximum performance
