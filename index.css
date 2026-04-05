@@ -41,8 +41,15 @@
   border: 1px solid black;
 }
 
-.search {
+.filter {
   padding: 10px;
+  margin: 10px;
+}
+
+.filter-btn,
+.show-all-btn {
+  border: 1px solid black;
+  margin: 5px;
 }
 
 .res-logo {

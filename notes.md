@@ -198,7 +198,7 @@ A functional component can be invoked in three ways:
 
 JSX automatically **sanitizes injected content**, protecting against XSS (cross-site scripting) attacks.
 
-# 🧩 Episode 4 – Props, Virtual DOM & Reconciliation
+# 🧩 Episode 4 – Props
 
 ## 🔹 Props
 
@@ -222,6 +222,24 @@ const Card = (props) => {
 
 ---
 
+## Food ordering app structure
+
+- Header
+- - Logo
+- - Nav items
+- Body
+- - Search
+- - Restaurant container
+- - Resto cards
+-     - Nmae, start, cuisine, delivery time, etc
+- Footer
+- - Copyright
+- - Contact
+- - Address
+- - Links
+
+---
+
 ## 🔹 Keys in Lists
 
 - When rendering components at the **same level**, React requires a **unique `key`** prop
@@ -234,29 +252,85 @@ items.map((item) => <Card key={item.id} data={item} />);
 
 > ⚠️ **Anti-pattern:** Using array `index` as key is discouraged by React, as it can cause incorrect renders during reordering or deletion.
 
----
+# 🗂️ Episode 5 – Project Structure, Exports & React Hooks
 
-## 🔹 Virtual DOM
+## 🔹 Project Structure
 
-React uses a Virtual DOM to efficiently update the UI:
+React has **no officially recommended** way to structure a project, but common approaches are:
 
-```
-State Change
-    ↓
-New Virtual DOM created (expected result)
-    ↓
-Diffing — compared with previous Virtual DOM
-    ↓
-Only the changed elements updated in the actual DOM
-```
+- **Group by file type** — all components together, all styles together, etc.
+- **Group by feature / routes** — each feature has its own folder with related files
 
-- **Virtual DOM** is a lightweight JS object representation of the actual DOM
-- Only the **diff (changed part)** is applied to the real DOM — not a full re-render
+> ⚠️ Avoid too much nesting in folder structure.
 
 ---
 
-## 🔹 React Reconciliation
+## 🔹 Export / Import Types
 
-- The process React uses to update the DOM efficiently
-- Uses a **diffing algorithm** to find exactly which part/component changed
-- Ensures minimal DOM operations for maximum performance
+### Default Export
+
+- Only **one** default export per file
+- No `{}` needed on import
+
+```js
+// Exporting
+export default Component;
+
+// Importing
+import Component from './path';
+```
+
+### Named Export
+
+- Used when **multiple components** need to be exported from a single file
+- Must use `{}` on import
+
+```js
+// Exporting
+export const Component;
+
+// Importing
+import { Component } from './path';
+```
+
+> 💡 By default, a file can only have a **single default export**. Use named exports for multiple.
+
+---
+
+## 🔹 React Hooks
+
+Hooks are **normal JavaScript utility functions** provided by React.
+
+| Hook         | Purpose                                |
+| ------------ | -------------------------------------- |
+| `useState()` | Manages state variables in a component |
+
+- Whenever a **state variable updates**, React **re-renders** the component
+- This keeps the UI in sync with the data
+
+```jsx
+const [count, setCount] = useState(0);
+```
+
+---
+
+## 🔹 Reconciliation Algorithm (React Fiber)
+
+React Fiber is the engine behind React's efficient DOM updates:
+
+```
+Actual DOM (current UI)
+        ↓
+State change triggered (useState / etc.)
+        ↓
+Virtual DOM created (expected representation)
+        ↓
+Diffing Algorithm finds differences
+        ↓
+Only the changed portion updated in Actual DOM
+```
+
+- **Virtual DOM** — a lightweight JS object representing the expected UI state
+- **Diffing** — compares the new Virtual DOM with the previous one
+- **Fiber** — React's reconciliation engine that schedules and applies these updates efficiently
+- Result: minimal & efficient DOM manipulation → better UI performance
