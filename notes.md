@@ -334,3 +334,95 @@ Only the changed portion updated in Actual DOM
 - **Diffing** — compares the new Virtual DOM with the previous one
 - **Fiber** — React's reconciliation engine that schedules and applies these updates efficiently
 - Result: minimal & efficient DOM manipulation → better UI performance
+
+# 🌐 Episode 6 – Architecture, useEffect & State Management
+
+## 🔹 Microservice vs Monolith
+
+|           | Microservice                                                   | Monolith                       |
+| --------- | -------------------------------------------------------------- | ------------------------------ |
+| Structure | Each service is separate (UI, Backend, DB, Auth, Notification) | All services bundled together  |
+| Principle | Separation of concern, Single Responsibility                   | Tightly coupled                |
+| On change | Only the affected service needs to be rebuilt                  | Entire app needs to be rebuilt |
+
+---
+
+## 🔹 Two UI Data-Fetching Approaches
+
+| Approach          | Flow                            | UX           |
+| ----------------- | ------------------------------- | ------------ |
+| Wait then render  | Load → Wait for API → Render    | ❌ Bad UX    |
+| Render then fetch | Load → Render → API → Re-render | ✅ Better UX |
+
+> ⚛️ **React follows** the second approach: **Load → Render → API → Re-render**
+
+---
+
+## 🔹 useEffect
+
+```jsx
+useEffect(callbackFn, [dependencyList]);
+```
+
+- **Callback function** — executed _after_ the component's first render cycle finishes
+- **Dependency list** — controls when the effect re-runs
+
+```jsx
+useEffect(() => {
+  fetchData();
+}, []); // [] means run only once after first render
+```
+
+---
+
+## 🔹 Shimmer UI
+
+- A placeholder UI shown while data is loading
+- Improves perceived performance → better UX than a blank screen or spinner
+
+---
+
+## 🔹 Conditional Rendering
+
+Render components based on a condition:
+
+```jsx
+return isLoading ? <Shimmer /> : <ActualComponent />;
+```
+
+---
+
+## 🔹 Why State Variables?
+
+- **Normal JS variables** — changing their value does **not** re-render the component
+- **State variables** — changing their value via `setState` **triggers a re-render** of the whole component, keeping UI in sync
+
+```jsx
+const [data, setData] = useState(null); // state variable
+let count = 0; // normal variable — won't trigger re-render
+```
+
+> 💡 Once `setVariable()` is called, the component re-executes with the new state value. On subsequent renders, the RHS of the `useState()` initialization is **skipped** — the current state value is used instead.
+
+---
+
+## 🔹 Reconciliation on State Update
+
+Whenever a state variable updates → React triggers a **reconciliation cycle** → component re-renders with the new value.
+
+---
+
+## 🔹 Source of Truth & Filtering
+
+- The state variable holding **API data** is the **source of truth** — never mutate it directly
+- For filtering/searching, use a **separate state variable** initialized with the same data
+
+```jsx
+const [restaurants, setRestaurants] = useState([]); // source of truth
+const [filtered, setFiltered] = useState([]); // used for filtering
+
+// On filter:
+setFiltered(restaurants.filter((r) => r.rating > 4));
+```
+
+> This way, the original data is always preserved and can be restored anytime.

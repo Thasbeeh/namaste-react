@@ -9,6 +9,8 @@
 
 .nav-container {
   padding: 0 20px;
+  display: flex;
+  align-items: center;
 }
 
 .nav-container > ul {
@@ -25,7 +27,6 @@
 .rest-container {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   margin: 20px;
 }
 
@@ -44,10 +45,21 @@
 .filter {
   padding: 10px;
   margin: 10px;
+  gap: 10px;
+  display: flex;
+  align-items: center;
 }
 
-.filter-btn,
-.show-all-btn {
+.search-box {
+  border: 1px solid black;
+}
+
+.search-btn {
+  border: 1px solid black;
+  margin: 5px;
+}
+
+.filter-btn {
   border: 1px solid black;
   margin: 5px;
 }
@@ -55,4 +67,25 @@
 .res-logo {
   width: 100%;
   max-height: 380px;
+}
+
+.shimmer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+.shimmer-card {
+  width: 300px;
+  height: 600px;
+  padding: 5px;
+  margin: 5px;
+  background-color: #f0f0f0;
+}
+
+.btn-login {
+  margin: 10px;
+  width: 150px;
+  height: 60px;
 }
