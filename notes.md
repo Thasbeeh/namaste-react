@@ -426,3 +426,85 @@ setFiltered(restaurants.filter((r) => r.rating > 4));
 ```
 
 > This way, the original data is always preserved and can be restored anytime.
+
+# 🛣️ Episode 7 – useEffect Deep Dive & React Router
+
+## 🔹 useEffect Dependency Array
+
+| Dependency Array          | Behaviour                                            |
+| ------------------------- | ---------------------------------------------------- |
+| No dependency array       | Callback runs **every time** the component renders   |
+| Empty array `[]`          | Callback runs **only once** after the initial render |
+| Array with values `[val]` | Callback runs whenever the **dependency changes**    |
+
+> ⚠️ If a state variable is updated inside `useEffect` with **no dependency array**, it will cause an **infinite render loop** — the state update triggers a re-render, which triggers the effect again, and so on.
+
+---
+
+## 🔹 Rules of State Variables (Hooks Rules)
+
+State variables must **only** be declared inside a functional component — never:
+
+- ❌ Outside the functional component
+- ❌ Inside `if / else` conditions
+- ❌ Inside loops
+- ❌ Inside normal functions
+
+```jsx
+// ✅ Correct
+const MyComponent = () => {
+  const [count, setCount] = useState(0);
+};
+
+// ❌ Wrong
+const [count, setCount] = useState(0); // outside component
+```
+
+---
+
+## 🔹 React Router DOM
+
+Used for **client-side routing** by wrapping the app in a router.
+
+### Key APIs
+
+| API                   | Purpose                                             |
+| --------------------- | --------------------------------------------------- |
+| `createBrowserRouter` | Creates the router with route definitions           |
+| `RouterProvider`      | Provides the created router to the app              |
+| `useRouteError`       | Retrieves detailed error info on route errors       |
+| `Outlet`              | Renders matched child routes in a parent layout     |
+| `Link`                | Navigates to a route **without full page reload**   |
+| `useParams`           | Retrieves **dynamic route parameters** from the URL |
+
+---
+
+### `Link` vs `<a>` Tag
+
+|                   | `<a href="">`          | `<Link to="">`               |
+| ----------------- | ---------------------- | ---------------------------- |
+| Navigation        | Full page reload       | No reload — swaps components |
+| React SPA         | ❌ Breaks SPA behavior | ✅ Preserves SPA behavior    |
+| Behind the scenes | —                      | Uses `<a>` tag internally    |
+
+> 💡 This is why React is called a **Single Page Application (SPA)** — navigation only swaps/refreshes components, not the whole page.
+
+---
+
+### `useParams` Example
+
+```jsx
+// Route: /restaurant/:id
+const { id } = useParams(); // retrieves the dynamic id from URL
+```
+
+---
+
+## 🔹 Two Types of Routing
+
+|                 | Server Side Routing           | Client Side Routing                  |
+| --------------- | ----------------------------- | ------------------------------------ |
+| Who handles it? | Server                        | Browser / Client                     |
+| How?            | Server serves a new HTML page | JS swaps components in the same page |
+| Page reload?    | ✅ Yes — full reload          | ❌ No — stays on same page           |
+| Example         | Traditional websites          | React SPA                            |
