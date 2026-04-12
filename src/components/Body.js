@@ -17,14 +17,14 @@ const Body = () => {
     const data = await fetch(DATA_URL);
     const json = await data.json();
     let allResturantsList =
-      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle
+      json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle
         ?.restaurants;
 
     setListOfRestaurants(allResturantsList);
     setFilteredRestaurants(allResturantsList);
   };
 
-  return listOfRestaurants.length === 0 ? (
+  return listOfRestaurants == undefined || listOfRestaurants.length === 0 ? (
     <Shimmer />
   ) : (
     <div className="body">

@@ -508,3 +508,150 @@ const { id } = useParams(); // retrieves the dynamic id from URL
 | How?            | Server serves a new HTML page | JS swaps components in the same page |
 | Page reload?    | ✅ Yes — full reload          | ❌ No — stays on same page           |
 | Example         | Traditional websites          | React SPA                            |
+
+# 🏛️ Episode 8 – Class Components & Lifecycle Methods
+
+## 🔹 Class Component Basics
+
+```jsx
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props); // mandatory before using "this"
+    this.state = {
+      data: null,
+    };
+  }
+
+  render() {
+    return <h1>{this.state.data}</h1>;
+  }
+}
+```
+
+- `render()` — returns JSX
+- `constructor(props)` — receives props; must call `super(props)` before using `this`
+
+### Why `super(props)`?
+
+- `super()` passes control to the parent class (`React.Component`) to assign `this`
+- `super(props)` additionally sets `this.props` in the child class
+- Without it, `this` cannot be used inside the constructor
+
+---
+
+## 🔹 State in Class Components
+
+- State variables are declared inside the `constructor` as `this.state = {}`
+- **Never update state directly** — always use `this.setState()`
+- Multiple state variables can be updated in one call:
+
+```jsx
+this.setState({ count: 1, name: 'React' });
+```
+
+---
+
+## 🔹 Component Lifecycle
+
+### 1. Mounting Phase
+
+| Step                  | Phase  | Description                                                   |
+| --------------------- | ------ | ------------------------------------------------------------- |
+| `constructor()`       | Render | Called with dummy/initial data                                |
+| `render()`            | Render | JSX rendered with dummy data                                  |
+| `componentDidMount()` | Commit | Called after component is painted to DOM; ideal for API calls |
+
+### 2. Updating Phase
+
+| Step                   | Phase  | Description                  |
+| ---------------------- | ------ | ---------------------------- |
+| `render()`             | Render | Re-renders with new/API data |
+| `componentDidUpdate()` | Commit | Called after every update    |
+
+### 3. Unmounting Phase
+
+| Step                     | Phase  | Description                                      |
+| ------------------------ | ------ | ------------------------------------------------ |
+| `componentWillUnmount()` | Commit | Called just before component is removed from DOM |
+
+---
+
+## 🔹 Order of Execution — Parent & Child
+
+### Single child
+
+```
+parent constructor
+parent render
+  child constructor
+  child render
+  ── DOM UPDATED IN SINGLE BATCH ──
+  child componentDidMount
+parent componentDidMount
+```
+
+### Two children
+
+```
+parent constructor
+parent render
+  child1 constructor
+  child1 render
+  child2 constructor
+  child2 render
+  ── DOM UPDATED IN SINGLE BATCH ──
+  child1 componentDidMount
+  child2 componentDidMount
+parent componentDidMount
+```
+
+> 💡 React batches all renders first, then commits them to the DOM in one go — this is why child `componentDidMount` runs before the parent's.
+
+---
+
+## 🔹 componentDidUpdate
+
+- Executes **after every update** to the component (state or props change)
+- Equivalent to `useEffect(() => { ... }, [dependency])` in functional components
+
+---
+
+## 🔹 componentWillUnmount & Cleanup
+
+**The problem:** In a SPA, navigating away doesn't reload the page — it just swaps components. So a `setInterval` started in a component keeps running even after the component is removed.
+
+**The fix:** Clean up in `componentWillUnmount`:
+
+```jsx
+componentDidMount() {
+  this.timer = setInterval(() => console.log("tick"), 1000);
+}
+
+componentWillUnmount() {
+  clearInterval(this.timer); // cleanup
+}
+```
+
+### Equivalent in Functional Components
+
+The `return` of `useEffect` acts as the cleanup — it runs when the component is unmounted (page changed):
+
+```jsx
+useEffect(() => {
+  const timer = setInterval(() => console.log('tick'), 1000);
+
+  return () => {
+    clearInterval(timer); // cleanup on unmount
+  };
+}, []);
+```
+
+---
+
+## 🔹 Class Lifecycle vs Hooks — Quick Map
+
+| Class Component        | Functional Component                 |
+| ---------------------- | ------------------------------------ |
+| `componentDidMount`    | `useEffect(() => {}, [])`            |
+| `componentDidUpdate`   | `useEffect(() => {}, [dep])`         |
+| `componentWillUnmount` | `return () => {}` inside `useEffect` |
