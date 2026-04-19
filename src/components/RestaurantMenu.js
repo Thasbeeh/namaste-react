@@ -1,36 +1,25 @@
-import { useState, useEffect } from 'react';
 import Shimmer from './Shimmer';
-import { MENU_URL } from '../utils/constants';
 import MenuFilter from './MenuFilter';
 import MenuCategory from './MenuCategory';
 import { useParams } from 'react-router-dom';
+import useRestaurantMenu from '../utils/useRestaurantMenu';
+import useMenuFilter from '../utils/useMenuFilter';
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
-
-  const [resturantInfo, setRestaurantInfo] = useState(null);
-  const [vegOnly, setVegOnly] = useState(false);
-  const [nonVegOnly, setNonVegOnly] = useState(false);
-
-  useEffect(() => {
-    fetchMenu();
-  }, []);
-
-  const fetchMenu = async () => {
-    const data = await fetch(MENU_URL + resId);
-    const json = await data.json();
-    setRestaurantInfo(json?.data);
-  };
+  const resturantInfo = useRestaurantMenu(resId);
+  const { vegOnly, setVegOnly, nonVegOnly, setNonVegOnly, filterType } =
+    useMenuFilter();
 
   if (resturantInfo === null) return <Shimmer />;
 
   const { name, avgRating, cuisines, costForTwoMessage } =
     resturantInfo?.cards[2]?.card?.card?.info;
-
   const categories =
-    resturantInfo?.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards;
-
-  const vegFilter = vegFilterFactory(vegOnly, nonVegOnly);
+    resturantInfo?.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards.slice(
+      1,
+      5,
+    );
 
   return (
     <div className="restaurant-menu">
@@ -55,19 +44,13 @@ const RestaurantMenu = () => {
               key={categoryId}
               title={title}
               itemCards={itemCards}
-              vegFilter={vegFilter}
+              vegFilter={filterType}
             />
           );
         })}
       </div>
     </div>
   );
-};
-
-const vegFilterFactory = (vegOnly, nonVegOnly) => {
-  if (vegOnly == true && nonVegOnly == false) return 'VEG';
-  else if (vegOnly == false && nonVegOnly == true) return 'NONVEG';
-  else return null;
 };
 
 export default RestaurantMenu;

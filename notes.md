@@ -655,3 +655,90 @@ useEffect(() => {
 | `componentDidMount`    | `useEffect(() => {}, [])`            |
 | `componentDidUpdate`   | `useEffect(() => {}, [dep])`         |
 | `componentWillUnmount` | `return () => {}` inside `useEffect` |
+
+# 🪝 Episode 9 – Custom Hooks, Performance & Lazy Loading
+
+## 🔹 Custom Hooks
+
+- Place custom hooks in the `utils/` folder
+- Name must start with `use` — React identifies it as a hook
+- Not technically mandatory, but **officially recommended** by React
+
+```jsx
+// utils/useOnlineStatus.js
+const useOnlineStatus = () => {
+  const [isOnline, setIsOnline] = useState(true);
+  // logic here
+  return isOnline;
+};
+```
+
+> 💡 **SRP for components:** Keep functional components "dumb" — they should only return JSX. Move all JS logic and state variables into custom hooks.
+
+---
+
+## 🔹 Online / Offline Event Listener
+
+Detect whether the user's app is online or offline:
+
+```js
+addEventListener('online', (event) => {
+  // user is back online
+});
+
+addEventListener('offline', (event) => {
+  // user went offline
+});
+```
+
+A good use case for a custom hook like `useOnlineStatus`.
+
+---
+
+## 🔹 Chunking / Lazy Loading
+
+### The Problem
+
+| Scenario                           | Issue                        |
+| ---------------------------------- | ---------------------------- |
+| 1000 components in 1 file          | Huge bundle → slow app       |
+| 1000 separate files loaded at once | Too many requests → slow app |
+
+Both extremes are bad. The solution is **smaller, on-demand bundles**.
+
+### The Solution — Code Splitting
+
+This process goes by many names:
+
+- Chunking
+- Code Splitting
+- Dynamic Bundling
+- Lazy Loading
+- On-demand Loading
+
+### How to Lazy Load in React
+
+```jsx
+import { lazy, Suspense } from 'react';
+
+const Dashboard = lazy(() => import('./Dashboard'));
+```
+
+- `lazy()` tells React to load this component **only when it's needed**
+- The `import()` inside is a dynamic import — it fetches the chunk on demand
+
+---
+
+## 🔹 Suspense
+
+When a lazy-loaded component is being fetched, React needs something to show in the meantime. This is handled by `Suspense`:
+
+```jsx
+<Suspense fallback={<h1>Loading...</h1>}>
+  <Dashboard />
+</Suspense>
+```
+
+- Wrap the lazy-loaded component in `<Suspense>`
+- The `fallback` prop renders while the component chunk is being loaded
+- Once loaded, the actual component replaces the fallback

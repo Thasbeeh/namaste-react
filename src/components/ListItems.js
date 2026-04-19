@@ -9,14 +9,15 @@ const ListItems = (props) => {
             id,
             name,
             price,
+            defaultPrice,
             itemAttribute: { vegClassifier },
           } = item?.card?.info;
 
           const isMatch = !vegFilter || vegFilter == vegClassifier;
-
+          const priceOfItem = price || defaultPrice;
           return isMatch ? (
             <li key={id} className="item">
-              {name} - Rs.{price / 100}
+              {name} - Rs.{priceOfItem / 100}
             </li>
           ) : null;
         })}
