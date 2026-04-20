@@ -2,7 +2,7 @@ const ListItems = (props) => {
   const { items, vegFilter } = props;
 
   return (
-    <div className="list">
+    <div className="m-4">
       <ul>
         {items.map((item) => {
           const {

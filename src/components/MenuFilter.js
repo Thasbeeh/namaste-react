@@ -2,30 +2,33 @@ const MenuFilter = (props) => {
   const { vegOnly, nonVegOnly, setVegOnly, setNonVegOnly } = props;
 
   return (
-    <div className="menu-filters">
-      <label>
-        Veg
+    <div className="flex w-[75%] items-center gap-6 p-4">
+      {/* Veg Filter */}
+      <label className="flex items-center gap-2 cursor-pointer">
+        <span className="text-sm font-medium text-gray-700">Veg</span>
         <input
           type="checkbox"
-          className="veg-checkbox"
+          className="h-4 w-4 accent-green-600 cursor-pointer"
           checked={vegOnly}
           onChange={() => {
             if (nonVegOnly) setNonVegOnly(false);
-            vegOnly == true ? setVegOnly(false) : setVegOnly(true);
+            setVegOnly(!vegOnly);
           }}
-        ></input>
+        />
       </label>
-      <label>
-        Non-veg
+
+      {/* Non-Veg Filter */}
+      <label className="flex items-center gap-2 cursor-pointer">
+        <span className="text-sm font-medium text-gray-700">Non-veg</span>
         <input
           type="checkbox"
-          className="non-veg-checkbox"
+          className="h-4 w-4 accent-red-600 cursor-pointer"
           checked={nonVegOnly}
           onChange={() => {
             if (vegOnly) setVegOnly(false);
-            nonVegOnly == true ? setNonVegOnly(false) : setNonVegOnly(true);
+            setNonVegOnly(!nonVegOnly);
           }}
-        ></input>
+        />
       </label>
     </div>
   );

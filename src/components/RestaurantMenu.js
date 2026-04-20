@@ -22,12 +22,12 @@ const RestaurantMenu = () => {
     );
 
   return (
-    <div className="restaurant-menu">
-      <h1>{name}</h1>
-      <h3>
+    <div className="p-4 m-4">
+      <h1 className="text-3xl font-extrabold text-gray-800 mb-2">{name}</h1>
+      <h3 className="text-green-700 font-bold pb-1 mb-1">
         Rating: {avgRating} - {costForTwoMessage}
       </h3>
-      <h3>{cuisines.join(', ')}</h3>
+      <h3 className="text-gray-500">{cuisines.join(', ')}</h3>
       <h2>Menu</h2>
       <MenuFilter
         vegOnly={vegOnly}
@@ -35,7 +35,7 @@ const RestaurantMenu = () => {
         setVegOnly={setVegOnly}
         setNonVegOnly={setNonVegOnly}
       />
-      <div className="menu-container">
+      <div>
         {categories.map((category) => {
           const { categoryId, title, itemCards } = category?.card?.card;
 

@@ -742,3 +742,9 @@ When a lazy-loaded component is being fetched, React needs something to show in 
 - Wrap the lazy-loaded component in `<Suspense>`
 - The `fallback` prop renders while the component chunk is being loaded
 - Once loaded, the actual component replaces the fallback
+
+# 🎨 Episode 10 – Tailwind & PostCSS
+
+## 🔹 Tailwind CSS Setup
+
+- **Parcel** uses **PostCSS** internally to read and process **Tailwind CSS**
