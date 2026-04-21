@@ -4,26 +4,30 @@ import MenuCategory from './MenuCategory';
 import { useParams } from 'react-router-dom';
 import useRestaurantMenu from '../utils/useRestaurantMenu';
 import useMenuFilter from '../utils/useMenuFilter';
+import { useState } from 'react';
 
 const RestaurantMenu = () => {
   const { resId } = useParams();
   const resturantInfo = useRestaurantMenu(resId);
   const { vegOnly, setVegOnly, nonVegOnly, setNonVegOnly, filterType } =
     useMenuFilter();
+  const [showIndex, setShowIndex] = useState(null);
 
   if (resturantInfo === null) return <Shimmer />;
 
   const { name, avgRating, cuisines, costForTwoMessage } =
     resturantInfo?.cards[2]?.card?.card?.info;
+
   const categories =
-    resturantInfo?.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards.slice(
-      1,
-      5,
+    resturantInfo?.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+      (c) =>
+        c.card?.card?.['@type'] ===
+        'type.googleapis.com/swiggy.presentation.food.v2.ItemCategory',
     );
 
   return (
-    <div className="p-4 m-4">
-      <h1 className="text-3xl font-extrabold text-gray-800 mb-2">{name}</h1>
+    <div className="text-center p-4 m-4">
+      <h1 className="text-3xl font-extrabold text-gray-800 my-2">{name}</h1>
       <h3 className="text-green-700 font-bold pb-1 mb-1">
         Rating: {avgRating} - {costForTwoMessage}
       </h3>
@@ -36,7 +40,7 @@ const RestaurantMenu = () => {
         setNonVegOnly={setNonVegOnly}
       />
       <div>
-        {categories.map((category) => {
+        {categories.map((category, index) => {
           const { categoryId, title, itemCards } = category?.card?.card;
 
           return (
@@ -45,6 +49,10 @@ const RestaurantMenu = () => {
               title={title}
               itemCards={itemCards}
               vegFilter={filterType}
+              showItems={index === showIndex}
+              setShowIndex={() =>
+                setShowIndex(index === showIndex ? null : index)
+              }
             />
           );
         })}

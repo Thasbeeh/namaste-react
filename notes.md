@@ -748,3 +748,115 @@ When a lazy-loaded component is being fetched, React needs something to show in 
 ## 🔹 Tailwind CSS Setup
 
 - **Parcel** uses **PostCSS** internally to read and process **Tailwind CSS**
+
+# 🔁 Episode 11 – HOCs, Lifting State Up & React Context
+
+## 🔹 Higher Order Component (HOC)
+
+A **Higher Order Component** is a JS function that:
+
+- Takes a component as input
+- Enhances it
+- Returns a new component
+
+```jsx
+export const withOpenLabel = (RestaurantCard) => {
+  return (props) => {
+    return (
+      <div>
+        <label>Open</label>
+        <RestaurantCard {...props} />
+      </div>
+    );
+  };
+};
+```
+
+> 💡 The internals of the passed component are **not changed**, only wrapped/enhanced. Use the **spread operator** `{...props}` to pass everything through without needing to know what's inside.
+
+---
+
+## 🔹 Controlled vs Uncontrolled Components
+
+|                | Uncontrolled    | Controlled       |
+| -------------- | --------------- | ---------------- |
+| State lives in | Child component | Parent component |
+| Parent control | ❌ Limited      | ✅ Full control  |
+
+- If a child has its own state variables, the **parent has limited control** over it
+- To give full control to the parent → **lift the state up**
+
+---
+
+## 🔹 Lifting State Up
+
+> Move state to the **closest common parent**, then pass it down via props.
+
+```jsx
+// Parent
+const [showIndex, setShowIndex] = useState(null);
+
+<MenuCategory
+  showItems={index === showIndex}
+  setShowIndex={() => setShowIndex(index === showIndex ? null : index)}
+/>;
+```
+
+- `showItems` — derived from parent state, passed as prop
+- `setShowIndex` — passed down so child can update parent state
+- Toggling: `index === showIndex ? null : index` — clicking the same item again collapses it
+
+---
+
+## 🔹 Props Drilling
+
+Passing a prop **deeply through many layers** of the component tree, even to components that don't need it — just to get it to a deeply nested child.
+
+❌ Messy, hard to maintain.
+
+---
+
+## 🔹 React Context
+
+React Context is a **built-in global-like space** to store and share values across the component tree — without drilling props through every layer.
+
+### Setup
+
+```jsx
+// Create
+const UserContext = createContext({ loggedInUser: "Default User" });
+
+// Provide (wrap app or part of tree)
+<UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
+  {...app...}
+</UserContext.Provider>
+
+// Consume (functional component)
+const { loggedInUser } = useContext(UserContext);
+```
+
+### In Class Components
+
+Class components can't use hooks, so use `<Context.Consumer>` instead:
+
+```jsx
+<UserContext.Consumer>
+  {(data) => <h1>{data.loggedInUser}</h1>}
+</UserContext.Consumer>
+```
+
+### Key Points
+
+- Pass `setState` inside the Provider `value` to allow **any layer** to update context
+- Even **lazy-loaded components** receive the correct context value before they load — contexts are that powerful
+- Context is **built into React**, while state management libraries (like Redux) are external
+
+---
+
+## 🔹 Context vs State Management Libraries
+
+|             | React Context | State Management Libraries (Redux etc.) |
+| ----------- | ------------- | --------------------------------------- |
+| Built-in    | ✅ Yes        | ❌ External dependency                  |
+| Scalability | Limited       | ✅ Better for large apps                |
+| Features    | Basic         | Advanced (middleware, devtools, etc.)   |

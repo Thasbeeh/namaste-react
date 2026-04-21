@@ -2,7 +2,7 @@ const MenuFilter = (props) => {
   const { vegOnly, nonVegOnly, setVegOnly, setNonVegOnly } = props;
 
   return (
-    <div className="flex w-[75%] items-center gap-6 p-4">
+    <div className="flex w-fit mx-auto gap-10 p-4">
       {/* Veg Filter */}
       <label className="flex items-center gap-2 cursor-pointer">
         <span className="text-sm font-medium text-gray-700">Veg</span>

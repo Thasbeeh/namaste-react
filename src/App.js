@@ -5,14 +5,27 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import Contact from './components/Contact';
 import Error from './components/Error';
 import RestaurantMenu from './components/RestaurantMenu';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import UserContext from './utils/UserContext';
 
 const AppLayout = () => {
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    // Send API request with username and password for auth
+
+    // Get response after authetication successful
+    const data = { name: 'Thasbeeh' };
+    setUserName(data.name);
+  }, []);
+
   return (
-    <div className="app">
-      <Header />
-      <Outlet />
-    </div>
+    <UserContext.Provider value={{ loggedInUser: userName, setUserName }}>
+      <div className="app">
+        <Header />
+        <Outlet />
+      </div>
+    </UserContext.Provider>
   );
 };
 

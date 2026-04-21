@@ -1,27 +1,38 @@
-const ListItems = (props) => {
-  const { items, vegFilter } = props;
+import { CDN_URL } from '../utils/constants';
 
+const ListItems = ({ items }) => {
   return (
-    <div className="m-4">
-      <ul>
-        {items.map((item) => {
-          const {
-            id,
-            name,
-            price,
-            defaultPrice,
-            itemAttribute: { vegClassifier },
-          } = item?.card?.info;
+    <div>
+      {items.map((item) => {
+        const { id, name, price, defaultPrice, description, imageId } =
+          item?.card?.info;
+        const priceOfItem = price || defaultPrice;
 
-          const isMatch = !vegFilter || vegFilter == vegClassifier;
-          const priceOfItem = price || defaultPrice;
-          return isMatch ? (
-            <li key={id} className="item">
-              {name} - Rs.{priceOfItem / 100}
-            </li>
-          ) : null;
-        })}
-      </ul>
+        return (
+          <div
+            key={id}
+            className="flex border-b-2 border-gray-400 mb-4 p-2 justify-between"
+          >
+            <div className="p-2 m-2 text-left w-9/12">
+              <h3 className="font-bold">{name}</h3>
+              <h3>₹ {priceOfItem / 100}</h3>
+              <p className="text-xs">{description}</p>
+            </div>
+            <div className="relative w-3/12 flex flex-col items-center justify-center mb-6">
+              <img
+                className="w-[70%] aspect-square object-cover rounded-lg"
+                src={CDN_URL + imageId}
+                alt="restaurant item"
+              />
+              <div className="absolute -bottom-3">
+                <button className="px-7 py-1 bg-white text-green-600 shadow-lg rounded-md hover:bg-green-100 cursor-pointer">
+                  ADD
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

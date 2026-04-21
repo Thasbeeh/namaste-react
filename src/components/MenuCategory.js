@@ -1,19 +1,26 @@
-import { useState } from 'react';
 import ListItems from './ListItems';
 
 const MenuCategory = (props) => {
-  const [isOpen, setIsOpen] = useState(true);
-  const { title, itemCards, vegFilter } = props;
+  const { title, itemCards, vegFilter, showItems, setShowIndex } = props;
+
+  const displayedItems = !vegFilter
+    ? itemCards
+    : itemCards?.filter(
+        (item) => item?.card?.info?.itemAttribute?.vegClassifier === vegFilter,
+      );
 
   return (
-    <div>
-      <button
-        className="items-center p-4 rounded-2xl w-[75%] shadow-sm border border-gray-200 my-4 hover:bg-gray-200 cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
+    <div className="w-6/12 mx-auto my-4 bg-gray-50 shadow-lg p-4">
+      <div
+        className="flex justify-between cursor-pointer"
+        onClick={() => setShowIndex()}
       >
-        {isOpen ? `${title} ▼` : `${title} ▲`}
-      </button>
-      {!isOpen && <ListItems items={itemCards} vegFilter={vegFilter} />}
+        <span className="font-bold text-lg">
+          {title} ({displayedItems.length})
+        </span>
+        <span>{showItems ? '🔼' : '🔽'}</span>
+      </div>
+      {showItems && <ListItems items={displayedItems} />}
     </div>
   );
 };
