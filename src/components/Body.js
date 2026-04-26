@@ -21,11 +21,7 @@ const Body = () => {
   console.log(loggedInUser);
 
   if (!onlineStatus)
-    return (
-      <h1>
-        Looks like you are Offline!! Please check your internet connection
-      </h1>
-    );
+    return <h1>Looks like you are Offline!! Please check your internet connection</h1>;
 
   return listOfRestaurants == undefined || listOfRestaurants.length === 0 ? (
     <Shimmer />
@@ -66,10 +62,7 @@ const Body = () => {
       </div>
       <div className="flex flex-wrap m-2 p-2 justify-between">
         {filteredRestaurants.map((restaurant) => (
-          <Link
-            to={`/restaurants/${restaurant.info.id}`}
-            key={restaurant.info.id}
-          >
+          <Link to={`/restaurants/${restaurant.info.id}`} key={restaurant.info.id}>
             {restaurant.info.isOpen ? (
               <OpenRestaurantCard resData={restaurant} />
             ) : (

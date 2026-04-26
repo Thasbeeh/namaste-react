@@ -7,14 +7,7 @@ const resList = [
       locality: 'Selex Mall',
       areaName: 'Kizhakkumpattukara',
       costForTwo: '₹600 for two',
-      cuisines: [
-        'North Indian',
-        'Barbecue',
-        'Kebabs',
-        'Biryani',
-        'Street Food',
-        'Snacks',
-      ],
+      cuisines: ['North Indian', 'Barbecue', 'Kebabs', 'Biryani', 'Street Food', 'Snacks'],
       avgRating: 4.4,
       parentId: '2438',
       avgRatingString: '4.4',
@@ -141,8 +134,7 @@ const resList = [
               {
                 attributes: {
                   description: 'Best in Pizza',
-                  imageId:
-                    'brand_cards/Badges%202026/72_Best%20in%20Pizza2026.png',
+                  imageId: 'brand_cards/Badges%202026/72_Best%20in%20Pizza2026.png',
                   theme: 'light',
                 },
               },
@@ -230,16 +222,14 @@ const resList = [
               {
                 attributes: {
                   description: 'Best in Bolt',
-                  imageId:
-                    'brand_cards/Badges%202026/40_Best%20in%20Bolt2026.png',
+                  imageId: 'brand_cards/Badges%202026/40_Best%20in%20Bolt2026.png',
                   theme: 'light',
                 },
               },
               {
                 attributes: {
                   description: 'Best in Burger',
-                  imageId:
-                    'brand_cards/Badges%202026/41_Best%20in%20Burger2026.png',
+                  imageId: 'brand_cards/Badges%202026/41_Best%20in%20Burger2026.png',
                   theme: 'light',
                 },
               },
@@ -323,8 +313,7 @@ const resList = [
               {
                 attributes: {
                   description: 'Best in Pizza',
-                  imageId:
-                    'brand_cards/Badges%202026/72_Best%20in%20Pizza2026.png',
+                  imageId: 'brand_cards/Badges%202026/72_Best%20in%20Pizza2026.png',
                   theme: 'light',
                 },
               },
@@ -374,15 +363,7 @@ const resList = [
       locality: 'Thrissur - Palghat Rd',
       areaName: 'Poothole',
       costForTwo: '₹200 for two',
-      cuisines: [
-        'Snacks',
-        'Grill',
-        'Fast Food',
-        'American',
-        'Pizzas',
-        'Mexican',
-        'Beverages',
-      ],
+      cuisines: ['Snacks', 'Grill', 'Fast Food', 'American', 'Pizzas', 'Mexican', 'Beverages'],
       avgRating: 4.5,
       parentId: '251',
       avgRatingString: '4.5',
@@ -416,8 +397,7 @@ const resList = [
               {
                 attributes: {
                   description: 'Best in Pizza',
-                  imageId:
-                    'brand_cards/Badges%202026/72_Best%20in%20Pizza2026.png',
+                  imageId: 'brand_cards/Badges%202026/72_Best%20in%20Pizza2026.png',
                   theme: 'light',
                 },
               },
@@ -637,8 +617,7 @@ const resList = [
       badges: {
         imageBadges: [
           {
-            imageId:
-              'brand_cards/Badges%202026/32_Best%20in%20South%20Indian2026.png',
+            imageId: 'brand_cards/Badges%202026/32_Best%20in%20South%20Indian2026.png',
             description: 'Best in South Indian',
           },
         ],
@@ -652,8 +631,7 @@ const resList = [
               {
                 attributes: {
                   description: 'Best in South Indian',
-                  imageId:
-                    'brand_cards/Badges%202026/32_Best%20in%20South%20Indian2026.png',
+                  imageId: 'brand_cards/Badges%202026/32_Best%20in%20South%20Indian2026.png',
                   theme: 'light',
                 },
               },
@@ -781,8 +759,7 @@ const resList = [
       badges: {
         imageBadges: [
           {
-            imageId:
-              'brand_cards/Badges%202026/26_Best%20in%20North%20Indian2026.png',
+            imageId: 'brand_cards/Badges%202026/26_Best%20in%20North%20Indian2026.png',
             description: 'Best in North Indian',
           },
           {
@@ -801,16 +778,14 @@ const resList = [
               {
                 attributes: {
                   description: 'Best in North Indian',
-                  imageId:
-                    'brand_cards/Badges%202026/26_Best%20in%20North%20Indian2026.png',
+                  imageId: 'brand_cards/Badges%202026/26_Best%20in%20North%20Indian2026.png',
                   theme: 'light',
                 },
               },
               {
                 attributes: {
                   description: 'Best in Biryani',
-                  imageId:
-                    'brand_cards/Badges%202026/39_Best%20in%20Biryani2026.png',
+                  imageId: 'brand_cards/Badges%202026/39_Best%20in%20Biryani2026.png',
                   theme: 'light',
                 },
               },
@@ -891,8 +866,7 @@ const resList = [
               {
                 attributes: {
                   description: 'Best in Burger',
-                  imageId:
-                    'brand_cards/Badges%202026/41_Best%20in%20Burger2026.png',
+                  imageId: 'brand_cards/Badges%202026/41_Best%20in%20Burger2026.png',
                   theme: 'light',
                 },
               },
@@ -1231,13 +1205,7 @@ const resList = [
       locality: 'Poothole',
       areaName: 'Poothole',
       costForTwo: '₹300 for two',
-      cuisines: [
-        'North Indian',
-        'South Indian',
-        'Chinese',
-        'Continental',
-        'Kerala',
-      ],
+      cuisines: ['North Indian', 'South Indian', 'Chinese', 'Continental', 'Kerala'],
       avgRating: 4.6,
       parentId: '20736',
       avgRatingString: '4.6',
@@ -1390,15 +1358,7 @@ const resList = [
       locality: 'Koorkenchery',
       areaName: 'Koorkencherry',
       costForTwo: '₹200 for two',
-      cuisines: [
-        'Chaat',
-        'Beverages',
-        'Snacks',
-        'South Indian',
-        'Juices',
-        'Chinese',
-        'Kerala',
-      ],
+      cuisines: ['Chaat', 'Beverages', 'Snacks', 'South Indian', 'Juices', 'Chinese', 'Kerala'],
       avgRating: 4.6,
       parentId: '202705',
       avgRatingString: '4.6',
@@ -1432,8 +1392,7 @@ const resList = [
               {
                 attributes: {
                   description: 'OnlyOnSwiggy',
-                  imageId:
-                    'v1690360529/Ratnesh_Badges/Only_on_swiggy_badge_4x.png',
+                  imageId: 'v1690360529/Ratnesh_Badges/Only_on_swiggy_badge_4x.png',
                   theme: 'light',
                 },
               },

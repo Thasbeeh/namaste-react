@@ -9,8 +9,7 @@ import { useState } from 'react';
 const RestaurantMenu = () => {
   const { resId } = useParams();
   const resturantInfo = useRestaurantMenu(resId);
-  const { vegOnly, setVegOnly, nonVegOnly, setNonVegOnly, filterType } =
-    useMenuFilter();
+  const { vegOnly, setVegOnly, nonVegOnly, setNonVegOnly, filterType } = useMenuFilter();
   const [showIndex, setShowIndex] = useState(null);
 
   if (resturantInfo === null) return <Shimmer />;
@@ -18,12 +17,10 @@ const RestaurantMenu = () => {
   const { name, avgRating, cuisines, costForTwoMessage } =
     resturantInfo?.cards[2]?.card?.card?.info;
 
-  const categories =
-    resturantInfo?.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
-      (c) =>
-        c.card?.card?.['@type'] ===
-        'type.googleapis.com/swiggy.presentation.food.v2.ItemCategory',
-    );
+  const categories = resturantInfo?.cards[5]?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
+    (c) =>
+      c.card?.card?.['@type'] === 'type.googleapis.com/swiggy.presentation.food.v2.ItemCategory',
+  );
 
   return (
     <div className="text-center p-4 m-4">
@@ -50,9 +47,7 @@ const RestaurantMenu = () => {
               itemCards={itemCards}
               vegFilter={filterType}
               showItems={index === showIndex}
-              setShowIndex={() =>
-                setShowIndex(index === showIndex ? null : index)
-              }
+              setShowIndex={() => setShowIndex(index === showIndex ? null : index)}
             />
           );
         })}

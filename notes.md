@@ -840,9 +840,7 @@ const { loggedInUser } = useContext(UserContext);
 Class components can't use hooks, so use `<Context.Consumer>` instead:
 
 ```jsx
-<UserContext.Consumer>
-  {(data) => <h1>{data.loggedInUser}</h1>}
-</UserContext.Consumer>
+<UserContext.Consumer>{(data) => <h1>{data.loggedInUser}</h1>}</UserContext.Consumer>
 ```
 
 ### Key Points
@@ -860,3 +858,191 @@ Class components can't use hooks, so use `<Context.Consumer>` instead:
 | Built-in    | ✅ Yes        | ❌ External dependency                  |
 | Scalability | Limited       | ✅ Better for large apps                |
 | Features    | Basic         | Advanced (middleware, devtools, etc.)   |
+
+# 🗃️ Episode 12 – Redux & Redux Toolkit
+
+## 🔹 React Layers & Redux
+
+- React has a **UI layer** and a **Data layer** — Redux operates in the data layer
+- For small to mid-sized apps, Redux is **not mandatory**
+- For heavy apps with a large data layer, Redux is recommended
+
+---
+
+## 🔹 Redux Store & Slices
+
+- Redux store is a **big global object** that holds all app state
+- To keep it organised, the store is divided into **slices** (logical parts)
+
+```
+Redux Store
+├── userSlice
+├── cartSlice
+└── displaySlice
+```
+
+---
+
+## 🔹 Write & Read Flow
+
+### Writing to Store
+
+```
+Click (event)
+  → dispatch(action)
+    → reducer function called
+      → slice of Redux store mutated
+```
+
+### Reading from Store
+
+```
+Redux Store slice
+  → useSelector (subscribed)
+    → UI component (auto-updates on change)
+```
+
+---
+
+## 🔹 Redux Toolkit Setup
+
+### Install
+
+```bash
+npm install @reduxjs/toolkit react-redux
+```
+
+| Package            | Purpose                                    |
+| ------------------ | ------------------------------------------ |
+| `@reduxjs/toolkit` | Core Redux logic (store, slices, reducers) |
+| `react-redux`      | Bridges React app with Redux store         |
+
+### 1. Build the Store
+
+```js
+// store.js
+import { configureStore } from '@reduxjs/toolkit';
+import cartReducer from './cartSlice';
+
+const appStore = configureStore({
+  reducer: {
+    cart: cartReducer,
+  },
+});
+
+export default appStore;
+```
+
+### 2. Connect Store to App
+
+```jsx
+<Provider store={appStore}>
+  {...app...}
+</Provider>
+```
+
+### 3. Create a Slice
+
+```js
+// cartSlice.js
+import { createSlice } from '@reduxjs/toolkit';
+
+const cartSlice = createSlice({
+  name: 'cart',
+  initialState: { items: [] },
+  reducers: {
+    addItem: (state, action) => {
+      state.items.push(action.payload); // mutation allowed in RTK
+    },
+    clearItems: (state) => {
+      state.items.length = 0; // mutate approach
+      // OR: return { items: [] }; // return approach
+    },
+  },
+});
+
+export const { addItem, clearItems } = cartSlice.actions;
+export default cartSlice.reducer;
+```
+
+---
+
+## 🔹 Dispatch & Selector
+
+### Dispatching an Action (Write)
+
+```jsx
+const dispatch = useDispatch();
+
+dispatch(addItem(item)); // action.payload = item
+```
+
+### Selecting from Store (Read)
+
+```jsx
+// ✅ Good — subscribe to specific slice portion
+const cartItems = useSelector((store) => store.cart.items);
+
+// ❌ Bad — subscribes to entire store, causes performance loss
+const store = useSelector((store) => store);
+const cartItems = store.cart.items;
+```
+
+> ⚠️ Always subscribe to the **exact portion** of the store you need. The subscription detects any changes in that slice and re-renders the component — subscribing to the whole store causes unnecessary re-renders.
+
+---
+
+## 🔹 Reducers — Naming Convention
+
+Each slice has its own **`reducers` object** (multiple small reducers inside), but is **exported as a single `reducer`**:
+
+```js
+// Inside slice — "reducers" (plural)
+reducers: {
+  (addItem, clearItems);
+}
+
+// Exported as — "reducer" (singular)
+export default cartSlice.reducer;
+
+// In store — each key maps to a slice's single reducer
+reducer: {
+  cart: cartReducer;
+}
+```
+
+---
+
+## 🔹 State Mutation — Vanilla Redux vs RTK
+
+|                 | Vanilla Redux         | Redux Toolkit                         |
+| --------------- | --------------------- | ------------------------------------- |
+| Direct mutation | ❌ Prohibited         | ✅ Allowed                            |
+| How?            | Must return new state | Uses **Immer** library under the hood |
+
+- RTK uses **Immer**, which detects differences between previous and new state and handles immutable updates internally
+
+### Debugging State in Reducer
+
+```js
+// ❌ Cannot directly log state
+console.log(state);
+
+// ✅ Use current() to log
+import { current } from '@reduxjs/toolkit';
+console.log(current(state));
+```
+
+### Clearing State — Two Approaches
+
+```js
+// Mutate approach
+clearItems: (state) => {
+  state.items.length = 0;
+};
+
+// Return approach
+clearItems: (state) => {
+  return { items: [] };
+};
+```

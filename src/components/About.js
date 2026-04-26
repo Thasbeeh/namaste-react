@@ -43,9 +43,7 @@ class About extends Component {
         <UserClass name={name} location={location} />
         <div>
           <UserContext.Consumer>
-            {({ loggedInUser }) => (
-              <h1 className="font-bold">User: {loggedInUser}</h1>
-            )}
+            {({ loggedInUser }) => <h1 className="font-bold">User: {loggedInUser}</h1>}
           </UserContext.Consumer>
         </div>
       </div>

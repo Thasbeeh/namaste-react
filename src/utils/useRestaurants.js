@@ -13,9 +13,11 @@ const useRestaurants = () => {
   const fetchData = async () => {
     const data = await fetch(DATA_URL);
     const json = await data.json();
-    let allResturantsList =
-      json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle
-        ?.restaurants;
+
+    let resObject = json.data?.cards.filter((item) =>
+      Object.hasOwn(item?.card?.card, 'gridElements'),
+    );
+    let allResturantsList = resObject[0].card?.card.gridElements?.infoWithStyle?.restaurants;
 
     setListOfRestaurants(allResturantsList);
     setFilteredRestaurants(allResturantsList);
@@ -29,9 +31,7 @@ const useRestaurants = () => {
   };
 
   const topRatedRestaurants = () => {
-    const filteredList = filteredRestaurants.filter(
-      (res) => res.info.avgRating > 4.5,
-    );
+    const filteredList = filteredRestaurants.filter((res) => res.info.avgRating > 4.5);
     setFilteredRestaurants(filteredList);
   };
 
