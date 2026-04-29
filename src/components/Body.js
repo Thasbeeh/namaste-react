@@ -15,10 +15,10 @@ const Body = () => {
     search,
     topRatedRestaurants,
   } = useRestaurants();
+
   const onlineStatus = useOnlineStatus();
   const OpenRestaurantCard = withOpenLabel(RestaurantCard);
   const { loggedInUser, setUserName } = useContext(UserContext);
-  console.log(loggedInUser);
 
   if (!onlineStatus)
     return <h1>Looks like you are Offline!! Please check your internet connection</h1>;
@@ -31,6 +31,7 @@ const Body = () => {
         <div className="m-2 p-2">
           <input
             className="border border-solid border-black w-125 py-1"
+            data-testid="searchInput"
             type="text"
             value={searchText}
             onChange={(e) => {

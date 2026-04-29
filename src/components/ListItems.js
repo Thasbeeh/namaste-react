@@ -11,12 +11,16 @@ const ListItems = ({ items }) => {
 
   return (
     <div>
-      {items.map((item) => {
+      {items.map((item, index) => {
         const { id, name, price, defaultPrice, description, imageId } = item?.card?.info;
         const priceOfItem = price || defaultPrice;
 
         return (
-          <div key={id} className="flex border-b-2 border-gray-400 mb-4 p-2 justify-between">
+          <div
+            key={id + '-' + index}
+            data-testid="listItem"
+            className="flex border-b-2 border-gray-400 mb-4 p-2 justify-between"
+          >
             <div className="p-2 m-2 text-left w-9/12">
               <h3 className="font-bold">{name}</h3>
               <h3>₹ {priceOfItem / 100}</h3>

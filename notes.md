@@ -1046,3 +1046,167 @@ clearItems: (state) => {
   return { items: [] };
 };
 ```
+
+# 🧪 Episode 13 – Testing in React
+
+## 🔹 Types of Testing (Dev POV)
+
+| Type                    | What it tests                             |
+| ----------------------- | ----------------------------------------- |
+| **Unit Testing**        | Individual components in isolation        |
+| **Integration Testing** | Collaboration between multiple components |
+| **End-to-End Testing**  | Full user workflow simulation             |
+
+---
+
+## 🔹 Libraries Used
+
+| Library                   | Role                                           |
+| ------------------------- | ---------------------------------------------- |
+| **React Testing Library** | Wrapper over DOM Testing Library               |
+| **Jest**                  | Test runner used behind the scenes by RTL      |
+| **JSDOM**                 | Provides a browser-like runtime for test cases |
+
+---
+
+## 🔹 Setting Up Testing
+
+```bash
+# Install dependencies
+npm install --save-dev @testing-library/react
+npm install --save-dev jest
+npm install --save-dev babel-jest @babel/core @babel/preset-env
+npm install --save-dev @babel/preset-react
+npm install --save-dev @testing-library/jest-dom
+npm install --save-dev @types/jest
+npm install --save-dev jest-environment-jsdom
+```
+
+**Steps:**
+
+1. Install React Testing Library
+2. Install Jest → run `npx create-jest`
+3. Install Babel dependencies & configure Babel
+4. Configure Parcel config to **disable default Babel transpilation**
+5. Install `jsdom` library
+6. Install `@babel/preset-react` → add to Babel config (for JSX support in tests)
+7. Install `@testing-library/jest-dom`
+8. Install `@types/jest`
+
+---
+
+## 🔹 JSDOM
+
+- Tests don't run in a browser — **JSDOM** provides a browser-like environment
+- It understands JSX but **does not understand** `react-redux` or `react-router-dom` code
+- For components using these, wrap them in the test with a mock store and router:
+
+```jsx
+render(
+  <Provider store={appStore}>
+    <BrowserRouter>
+      <Component />
+    </BrowserRouter>
+  </Provider>,
+);
+```
+
+---
+
+## 🔹 Querying Elements
+
+| Method            | Use                                                                  |
+| ----------------- | -------------------------------------------------------------------- |
+| `get...()`        | Fetch a **single** element (throws if not found)                     |
+| `getAll...()`     | Fetch **multiple** elements                                          |
+| `queryByTestId()` | Check if an element **has been removed** (returns null if not found) |
+
+```jsx
+const heading = screen.getByRole('heading');
+const items = screen.getAllByTestId('menu-item');
+const removed = screen.queryByTestId('cart-icon'); // won't throw if missing
+```
+
+---
+
+## 🔹 Organising Tests
+
+```js
+describe("Cart Component", () => {
+  it("should render cart items", () => { ... });
+  test("should clear cart on button click", () => { ... }); // same as it()
+});
+```
+
+- `describe()` — groups related tests
+- `it()` and `test()` — identical, use either
+
+---
+
+## 🔹 Jest Lifecycle Hooks
+
+```js
+beforeAll(() => {
+  /* runs once before all tests */
+});
+beforeEach(() => {
+  /* runs before each test */
+});
+afterAll(() => {
+  /* runs once after all tests */
+});
+afterEach(() => {
+  /* runs after each test */
+});
+```
+
+---
+
+## 🔹 Firing Events
+
+```jsx
+import { fireEvent } from '@testing-library/react';
+
+// Click
+fireEvent.click(button);
+
+// Change (simulate onChange — must fake e.target.value since no real browser)
+fireEvent.change(searchInput, { target: { value: 'burger' } });
+```
+
+> ⚠️ `e.target.value` is provided by the browser. Since tests don't use a browser, it must be **manually faked** inside `fireEvent.change()`.
+
+> ⚠️ `fireEvent.change()` must simulate the **exact `onChange` handler** written in the component code.
+
+---
+
+## 🔹 Async Rendering with `act`
+
+For components that use `fetch` or state updates, wrap the render inside `act`:
+
+```jsx
+import { act } from 'react-dom/test-utils';
+
+await act(async () => render(<Body />));
+```
+
+---
+
+## 🔹 Mock Data for Props
+
+Components that rely on props need **mock data** supplied in test cases:
+
+```jsx
+const mockRestaurant = { id: 1, name: 'Burger King', rating: 4.5 };
+render(<RestaurantCard resData={mockRestaurant} />);
+```
+
+---
+
+## 🔹 Watch Mode
+
+```bash
+jest --watch
+```
+
+Runs tests in watch mode — automatically re-runs on file changes, no need to re-run manually.

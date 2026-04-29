@@ -37,47 +37,55 @@ const AppLayout = () => {
 const Grocery = lazy(() => import('./components/Grocery'));
 const About = lazy(() => import('./components/About'));
 
-const appRouter = createBrowserRouter([
+const appRouter = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <AppLayout />,
+      children: [
+        {
+          path: '/',
+          element: <Body />,
+        },
+        {
+          path: '/about',
+          element: (
+            <Suspense fallback={<h1>Loading...</h1>}>
+              <About />
+            </Suspense>
+          ),
+        },
+        {
+          path: '/contact',
+          element: <Contact />,
+        },
+        {
+          path: '/restaurants/:resId',
+          element: <RestaurantMenu />,
+        },
+        {
+          path: '/cart',
+          element: <Cart />,
+        },
+        {
+          path: '/grocery',
+          element: (
+            <Suspense fallback={<h1>Loading...</h1>}>
+              <Grocery />
+            </Suspense>
+          ),
+        },
+      ],
+      errorElement: <Error />,
+    },
+  ],
   {
-    path: '/',
-    element: <AppLayout />,
-    children: [
-      {
-        path: '/',
-        element: <Body />,
-      },
-      {
-        path: '/about',
-        element: (
-          <Suspense fallback={<h1>Loading...</h1>}>
-            <About />
-          </Suspense>
-        ),
-      },
-      {
-        path: '/contact',
-        element: <Contact />,
-      },
-      {
-        path: '/restaurants/:resId',
-        element: <RestaurantMenu />,
-      },
-      {
-        path: '/cart',
-        element: <Cart />,
-      },
-      {
-        path: '/grocery',
-        element: (
-          <Suspense fallback={<h1>Loading...</h1>}>
-            <Grocery />
-          </Suspense>
-        ),
-      },
-    ],
-    errorElement: <Error />,
+    future: {
+      // Opt-in to the new relative path resolution
+      v7_relativeSplatPath: true,
+    },
   },
-]);
+);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 

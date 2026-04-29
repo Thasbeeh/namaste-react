@@ -1,0 +1,24 @@
+[
+  {
+    "card": {
+      "info": {
+        "id": "196935702",
+        "name": "Hariyali Malai Paneer & Upwas Aloo Pattice Bhoj Navratri Thali",
+        "description": "No Onion, No Garlic, Sendha Namak - A flavour-packed Upvas thali featuring aromatic Hariyali malai paneer, hearty Sabudana Khichdi, and golden-crisp Upwas Aloo Pattice. Balanced with cooling curd and a touch of sweet-tangy imli chutney for a truly satisfying fasting meal.  (Energy: 1551KCal, Carbohydrates: 214gm, Proteins: 33gm, Fats: 62gm, Sodium: 1797mg)",
+        "imageId": "FOOD_CATALOG/IMAGES/CMS/2026/3/21/02735cc7-4cde-439a-96cf-90f92444c585_5dd34d51-9b1e-403c-841b-acfeafe3f01f.jpeg",
+        "price": 43900
+      }
+    }
+  },
+  {
+    "card": {
+      "info": {
+        "id": "196988169",
+        "name": "Hariyali Malai Paneer",
+        "description": "Creamy paneer tossed in a vibrant hariyali chutney-style gravy for a fresh, indulgent bite. A wholesome meal crafted for your Upvas days.",
+        "imageId": "FOOD_CATALOG/IMAGES/CMS/2026/3/18/91feaa52-37d4-4109-ba23-f3a3af8ede47_53ab9392-0962-4712-969a-2bd8e2c160f3.jpeg",
+        "defaultPrice": 35900
+      }
+    }
+  }
+]

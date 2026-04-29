@@ -14,8 +14,11 @@ const useRestaurants = () => {
     const data = await fetch(DATA_URL);
     const json = await data.json();
 
-    let resObject = json.data?.cards.filter((item) =>
-      Object.hasOwn(item?.card?.card, 'gridElements'),
+    let resObject = json.data?.cards.filter(
+      (item) =>
+        item?.card?.card?.['@type'] ===
+          'type.googleapis.com/swiggy.gandalf.widgets.v2.GridWidget' &&
+        item?.card?.card?.gridElements?.infoWithStyle?.restaurants,
     );
     let allResturantsList = resObject[0].card?.card.gridElements?.infoWithStyle?.restaurants;
 
